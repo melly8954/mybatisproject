@@ -8,99 +8,103 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoryServiceImpl implements ICategoryService<ICategory>{
+public class CategoryServiceImpl implements ICategoryService<ICategory> {
     @Autowired
-    private CategoryMybatisMapper mybatisMapper;  // 선언 및 스프링부트 service , autowired 사용
-
-    private boolean isValidInsert(ICategory dto){
-        if(dto == null){
-            return false;
-        }
-        else return dto.getName() != null && !dto.getName().isEmpty();
-    }
+    private CategoryMybatisMapper categoryMybatisMapper;
 
     @Override
     public ICategory findById(Long id) {
-        CategoryDto dto = this.mybatisMapper.findById(id);
-        return dto;
+        if ( id == null || id <= 0 ) {
+            return null;
+        }
+        CategoryDto find = this.categoryMybatisMapper.findById(id);
+        return find;
     }
 
     @Override
     public ICategory findByName(String name) {
-        CategoryDto find = this.mybatisMapper.findByName(name);
+        if ( name == null || name.isEmpty() ) {
+            return null;
+        }
+        CategoryDto find = this.categoryMybatisMapper.findByName(name);
         return find;
     }
 
-
     @Override
     public List<ICategory> getAllList() {
-        List<ICategory> list = new ArrayList<>();
-        for ( CategoryDto dto : this.mybatisMapper.findAll() ){
-            list.add( (ICategory)dto );
-        }
+        List<ICategory> list = this.getICategoryList(
+                this.categoryMybatisMapper.findAll()
+        );
         return list;
     }
 
+    private List<ICategory> getICategoryList(List<CategoryDto> list) {
+        if ( list == null || list.size() <= 0 ) {
+            return new ArrayList<>();
+        }
+        // input : [CategoryDto|CategoryDto|CategoryDto|CategoryDto|CategoryDto]
+//        List<ICategory> result = new ArrayList<>();
+//        for( CategoryDto entity : list ) {
+//            result.add( (ICategory)entity );
+//        }
+        List<ICategory> result = list.stream()
+                .map(entity -> (ICategory)entity)
+                .toList();
+        // return : [ICategory|ICategory|ICategory|ICategory|ICategory]
+        return result;
+    }
 
     @Override
     public ICategory insert(ICategory category) throws Exception {
-        if ( !this.isValidInsert(category)){
+        if ( !isValidInsert(category) ) {
             return null;
         }
         CategoryDto dto = new CategoryDto();
         dto.copyFields(category);
         dto.setId(0L);
-        this.mybatisMapper.insert(dto);
+        this.categoryMybatisMapper.insert(dto);
         return dto;
+    }
+
+    private boolean isValidInsert(ICategory category) {
+        if ( category == null ) {
+            return false;
+        } else if ( category.getName() == null || category.getName().isEmpty() ) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean remove(Long id) throws Exception {
         ICategory find = this.findById(id);
-        if ( find != null ) {
-            this.mybatisMapper.deleteById(id);
+        if ( find == null ) {
             return false;
         }
-        this.mybatisMapper.deleteById(id);
-        return true;
-    }
-
-    private boolean setICategoryIsNotNull(ICategory to, ICategory from) {
-        if ( to == null || from == null ) {
-            return false;
-        }
-        if ( from.getName() != null && !from.getName().isEmpty() ) {
-            to.setName(from.getName());
-        }
+        this.categoryMybatisMapper.deleteById(id);
         return true;
     }
 
     @Override
-    public ICategory update(Long id, ICategory category) {
+    public ICategory update(Long id, ICategory category) throws Exception {
         ICategory find = this.findById(id);
         if ( find == null ) {
             return null;
         }
-        CategoryDto dto = CategoryDto.builder()
-                .id(id).name(find.getName())
-                .build();
-        dto.copyFields(category);
-        this.mybatisMapper.update(dto);
+        find.copyFields(category);
+        this.categoryMybatisMapper.update((CategoryDto)find);
         return find;
     }
 
     @Override
     public List<ICategory> findAllByNameContains(String name) {
-        if (name == null || name.isEmpty()) {
-            return new ArrayList<>();       // 빈 객체
+        if ( name == null || name.isEmpty() ) {
+            //return List.of();
+            return new ArrayList<>();
         }
-        List<CategoryDto> list = this.mybatisMapper.findAllByNameContains(name);
-        List<ICategory> result = new ArrayList<>();
-        for( CategoryDto item : list ){
-            result.add((ICategory)item);
-        }
-        return result;
+        List<ICategory> list = this.getICategoryList(
+                this.categoryMybatisMapper.findAllByNameContains(name)
+        );
+        return list;
     }
-
-
 }

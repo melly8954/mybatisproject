@@ -18,26 +18,38 @@ public class CategoryControllerTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+//    @BeforeEach
+//    public void init() {
+//        this.testRestTemplate.getRestTemplate().setRequestFactory(
+//                new HttpComponentsClientHttpRequestFactory()
+//        );
+//    }
+
     @Test
     public void CategoryTest() {
         String url = "http://localhost:" + port;
         CategoryDto requestInsert = CategoryDto.builder().build();
-        ResponseEntity<CategoryDto> responseInsert = this.testRestTemplate.postForEntity(url + "/cg"
+        ResponseEntity<CategoryDto> responseInsert = this.testRestTemplate.postForEntity(url + "/ct"
                 ,requestInsert, CategoryDto.class);
         assertThat(responseInsert).isNotNull();
         assertThat(responseInsert.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
         CategoryDto requestInsert2 = CategoryDto.builder().name("RestFull").build();
-        ResponseEntity<CategoryDto> responseInsert2 = this.testRestTemplate.postForEntity(url + "/cg"
+        ResponseEntity<CategoryDto> responseInsert2 = this.testRestTemplate.postForEntity(
+                url + "/ct"
                 ,requestInsert2, CategoryDto.class);
         assertThat(responseInsert2).isNotNull();
         assertThat(responseInsert2.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseInsert2.getBody()).isNotNull();
         System.out.println("responseInsert2.getBody().getId() = " + responseInsert2.getBody().getId());
         assertThat(responseInsert2.getBody().getName()).isEqualTo("RestFull");
 
-        // Category find test
+        // Category Find Test
         Long insertId = responseInsert2.getBody().getId();
-        ResponseEntity<CategoryDto> findEntity = this.testRestTemplate.getForEntity(url + "/cg/" + insertId.toString(), CategoryDto.class);
+        ResponseEntity<CategoryDto> findEntity = this.testRestTemplate.getForEntity(
+                url + "/ct/" + insertId.toString()
+                , CategoryDto.class
+        ); // CategoryController 의 findById 가 실행된다.
         assertThat(findEntity).isNotNull();
         assertThat(findEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -46,27 +58,34 @@ public class CategoryControllerTest {
         assertThat(resultFind.getId()).isEqualTo(insertId);
         assertThat(resultFind.getName()).isEqualTo("RestFull");
 
-        ResponseEntity<CategoryDto> notFindEntity = this.testRestTemplate.getForEntity(url + "/cg/99999999", CategoryDto.class);
-        assertThat(notFindEntity).isNotNull();
-        assertThat(notFindEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        ResponseEntity<CategoryDto> notfindEntity = this.testRestTemplate.getForEntity(
+                url + "/ct/99999999"
+                , CategoryDto.class
+        );
+        assertThat(notfindEntity).isNotNull();
+        assertThat(notfindEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
         // Category Update Test
         ICategory update = CategoryDto.builder().build();
         update.copyFields(resultFind);
-        update.setName("NoRestFull");
-        CategoryDto resultUpdate = this.testRestTemplate.patchForObject(url + "/cg/" + update.getId(), update, CategoryDto.class);
+        update.setName("NoRest");
+        CategoryDto resultObject = this.testRestTemplate.patchForObject(
+                url + "/ct/" + update.getId()
+                , update
+                , CategoryDto.class
+        );
+        assertThat(resultObject).isNotNull();
+        assertThat(resultObject.getName()).isEqualTo("NoRest");
 
-        assertThat(resultUpdate).isNotNull();
-        assertThat(resultUpdate.getName()).isEqualTo("NoRestFull");
-
-
-        // Categoru Delete test
+        // Category Delete Test
         ICategory delete = CategoryDto.builder().id(update.getId()).build();
         this.testRestTemplate.delete(url + "/ct/" + delete.getId());
-        ResponseEntity<CategoryDto> deleteEntity = this.testRestTemplate.getForEntity(url + "/cg/" + delete.getId(), CategoryDto.class);
+
+        ResponseEntity<CategoryDto> deleteEntity = this.testRestTemplate.getForEntity(
+                url + "/ct/" + delete.getId()
+                , CategoryDto.class
+        );
         assertThat(deleteEntity).isNotNull();
-        assertThat(deleteEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-
+        assertThat(deleteEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
-
 }
