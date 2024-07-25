@@ -76,7 +76,7 @@ public class CategoryServiceImpl implements ICategoryService<ICategory> {
     }
 
     @Override
-    public boolean remove(Long id) throws Exception {
+    public Boolean delete(Long id) throws Exception {
         ICategory find = this.findById(id);
         if ( find == null ) {
             return false;
@@ -97,13 +97,15 @@ public class CategoryServiceImpl implements ICategoryService<ICategory> {
     }
 
     @Override
-    public List<ICategory> findAllByNameContains(String name) {
-        if ( name == null || name.isEmpty() ) {
+    public List<ICategory> findAllByNameContains(SearchCategoryDto dto) {
+        if ( dto == null ) {
             //return List.of();
             return new ArrayList<>();
         }
+        dto.setOrderByWord("id DESC");
+        dto.setRowsOnePage(10);
         List<ICategory> list = this.getICategoryList(
-                this.categoryMybatisMapper.findAllByNameContains(name)
+                this.categoryMybatisMapper.findAllByNameContains(dto)
         );
         return list;
     }

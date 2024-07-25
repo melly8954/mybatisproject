@@ -2,12 +2,13 @@ package com.melly.mybatisproject.category;
 
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
+@SuperBuilder
 @NoArgsConstructor
+@AllArgsConstructor
 public class CategoryDto implements ICategory {
     private Long id;
     private String name;

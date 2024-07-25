@@ -12,7 +12,7 @@ public interface CategoryMybatisMapper {
     List<CategoryDto> findAll();
     void deleteById(Long id);
     void update(CategoryDto dto);
-    List<CategoryDto> findAllByNameContains(String name);
+    List<CategoryDto> findAllByNameContains(SearchCategoryDto dto);
 
 
 }
