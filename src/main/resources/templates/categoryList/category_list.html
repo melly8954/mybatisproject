@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/mazer/assets/compiled/css/app.css">
+    <link rel="stylesheet" href="/mazer/assets/compiled/css/app-dark.css">
+    <link rel="stylesheet" href="/mazer/assets/compiled/css/iconly.css">
+    <title>분류 관리 목록 화면</title>
+    <style>
+        #head{
+            margin: 25px;
+        }
+        #nameTag{
+            border: solid;
+            padding: 0 30px;
+        }
+        #addButton{
+            width: 200px;
+            padding-top:300px;
+            float: right;
+        }
+        footer{
+            width: 300%;
+            position: absolute;
+            bottom: 0;
+        }
+        .click{
+            padding: 250px 500px;
+            width: 170px;
+            height: 50px;
+        }
+    </style>
+    <script>
+        //$(document).ready(function(){
+        //    // Jquery 는 html 문서가 로딩이 완료 되면 이 부분을 실행한다.
+        //});
+        $(function(){
+            // jQuery 3.0 버전부터 실행할 기능을 정의해주세요.
+            let totPage = ([[${searchCategoryDto.total}]] + 9) / 10;
+            let searchName = "[[${searchCategoryDto.name}]]";
+            for (let i = 1; i <= totPage; i++) {
+                $("#pageDiv").append(" <a href='category_old?page=" + i +
+                    "&name=" + searchName + "'>[" + i + "]</a> ");
+            }
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <header id="head">
+            <form>
+                <span id="nameTag">이름</span>
+                <input type="text" id="id" placeholder="검색할 이름 입력">
+                <input type="submit" value="검색">
+                
+            </form>
+        </header>
+        <main>
+            <section>
+                <div id="pageDiv">
+
+                </div>
+                [(${pageHtml})]
+                <div>total : [[${searchCategoryDto.total}]], page : [[${searchCategoryDto.page}]], search name = [[${searchCategoryDto.name}]]</div>
+                <ul id="categoryList">
+                    <li>
+                        <span>id</span>
+                        <span> : </span>
+                        <span>name</span>
+                    </li>
+                    <li th:each="item : ${allList}">
+                        <a th:href="@{/ctweb/categoryList/category_listView(id=${item.id})}">
+                            <span th:text="${item.id}"></span>
+                            <span> : </span>
+                            <span th:text="${item.name}"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div id="addButton">
+                    <a href="ctweb/categoryList/category_list_insert" class="btn btn-primary rounded-pill">추가</a>
+                </div>
+
+            </section>
+        </main>
+        
+        <footer>
+            <a onclick="javascript:history.back();" class="click"><button>Prev</button></a>
+            <a href="">1</a>
+            <a href="">2</a>
+            <a href="">3</a>
+            <a href="">4</a>
+            <a href="">5</a>
+            <a href="">6</a>
+            <a href="">7</a>
+            <a href="">8</a>
+            <a onclick="javascript:history.forward();" class="click"><button>Next</button></a>
+        </footer>   
+    </div>
+</body>
+</html>

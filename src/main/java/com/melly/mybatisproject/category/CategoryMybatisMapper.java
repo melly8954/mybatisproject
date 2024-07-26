@@ -13,6 +13,6 @@ public interface CategoryMybatisMapper {
     void deleteById(Long id);
     void update(CategoryDto dto);
     List<CategoryDto> findAllByNameContains(SearchCategoryDto dto);
-
+	int countAllByNameContains(SearchCategoryDto searchCategoryDto);
 
 }
