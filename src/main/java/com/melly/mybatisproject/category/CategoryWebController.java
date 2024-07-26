@@ -119,5 +119,5 @@ public class CategoryWebController {
         return "redirect:category_old?page=1&name=";
     }
 
-    
+
 }
