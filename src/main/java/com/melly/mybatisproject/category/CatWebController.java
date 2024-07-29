@@ -41,7 +41,7 @@ public class CatWebController {
             model.addAttribute("error_message", "오류가 발생했습니다. 관리자에게 문의하세요.");
             return "error/error_save";  // resources/templates 폴더안의 화면파일
         }
-        return "catweb/category_list";  // resources/templates 폴더안의 화면파일
+        return "/catweb/category_list";  // resources/templates 폴더안의 화면파일
     }
 
     @GetMapping("/catweb/category_listView")    // 브라우저의 URL 주소
