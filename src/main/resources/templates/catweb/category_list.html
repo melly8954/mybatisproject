@@ -43,12 +43,18 @@
                     "&name=" + searchName + "'>[" + i + "]</a> ");
             }
         });
+
+        $(function(){
+            let searchName = "[[${searchCategoryDto.name}]]";
+        // 검색기능 하고싶은데 접근을 못하겠습니다.
+
+        });
     </script>
 </head>
 <body>
     <div>
         <header id="head">
-            <form>
+            <form id="form" name="form" method="post" action="/catweb/categoryListSearch">
                 <span id="nameTag">이름</span>
                 <input type="text" id="id" placeholder="검색할 이름 입력">
                 <input type="submit" value="검색">
@@ -69,7 +75,7 @@
                         <span>name</span>
                     </li>
                     <li th:each="item : ${allList}">
-                        <a th:href="@{/ctweb/categoryList/category_listView(id=${item.id})}">
+                        <a th:href="@{/catweb/catweb/category_listView(id=${item.id})}">
                             <span th:text="${item.id}"></span>
                             <span> : </span>
                             <span th:text="${item.name}"></span>
@@ -77,7 +83,7 @@
                     </li>
                 </ul>
                 <div id="addButton">
-                    <a href="ctweb/categoryList/category_list_insert" class="btn btn-primary rounded-pill">추가</a>
+                    <a href="/catweb/catweb/category_insertView" class="btn btn-primary rounded-pill">추가</a>
                 </div>
 
             </section>

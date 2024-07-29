@@ -18,12 +18,12 @@
     </script>
 </head>
 <body>
-<form id="form" name="form" method="post" action="/ctweb/categoryList/category_list_update" th:object="${allList}" th:onsubmit="return categoryUpdate()">
+<form id="form" name="form" method="post" action="/catweb/catweb/category_list_update" th:object="${allList}" th:onsubmit="return categoryUpdate()">
     <input type="number" th:field="*{id}" readonly/>
     <input type="text" th:field="*{name}" />
     <input type="submit" value="수정" />
     <input type="reset" value="원복"/>
-    <a th:href="@{/ctweb/categoryList/category_list_delete(id=*{id})}"  th:onsubmit="return categoryDelete()" >삭제</a>
+    <a th:href="@{/ctweb/catweb/category_list_delete(id=*{id})}"  th:onsubmit="return categoryDelete()" >삭제</a>
 </form>
 </body>
 </html>
