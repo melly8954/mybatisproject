@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="/mazer/assets/compiled/css/app.css">
     <link rel="stylesheet" href="/mazer/assets/compiled/css/app-dark.css">
     <link rel="stylesheet" href="/mazer/assets/compiled/css/iconly.css">
+    <style>
+        #divForm{
+            margin:200px 250px 0 250px;
+        }
+    </style>
     <script language="JavaScript" src="/js/jquery-3.7.1.min.js"></script>
     <script th:inline="javascript">
         const goBack = () => {
@@ -31,12 +36,15 @@
     </script>
 </head>
 <body>
-<form id="form" name="form">
-    <label for="id"></label><input type="hidden" id="id" name="id" th:value="${categoryDto.id}"/>
-    <label for="name">이름</label><input type="text" id="name" name="name" th:value="${categoryDto.name}"/>
-</form>
-    <button onclick="goBack();">뒤로</button>
-    <button onclick="categoryDelete();">삭제</button>
-    <button onclick="categoryUpdate();">수정</button>
+<div id="divForm">
+    <form id="form" name="form" class="pagination pagination-primary  justify-content-center">
+        <label for="id"></label><input type="hidden" id="id" name="id" th:value="${categoryDto.id}"/>
+        <label for="name" style="font-size: 25px">이름</label>
+        <input type="text" id="name" name="name" style="width:30px" th:value="${categoryDto.name}"/>
+    </form>
+        <button onclick="goBack();">뒤로</button>
+        <button onclick="categoryDelete();">삭제</button>
+        <button onclick="categoryUpdate();">수정</button>
+</div>
 </body>
 </html>

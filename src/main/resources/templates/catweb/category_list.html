@@ -3,6 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        #head1{
+            font-size: 25px;
+            text-align: center;
+        }
+        #searchblank{
+            margin: 0 10px;
+        }
+        #categoryList{
+            font-size: 40px;
+            text-align: center;
+        }
+        #categoryList li{
+            margin-bottom: 30px;
+        }
+        #divAdd{
+            position: relative;
+            top:120px;
+            right: 600px;
+        }
+        #bottomline{
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        #total{
+            font-size:30px;
+            font-weight: bold;
+        }
+    </style>
     <link rel="stylesheet" href="/mazer/assets/compiled/css/app.css">
     <link rel="stylesheet" href="/mazer/assets/compiled/css/app-dark.css">
     <link rel="stylesheet" href="/mazer/assets/compiled/css/iconly.css">
@@ -62,13 +93,13 @@
     </script>
 </head>
 <body>
-<form th:action="@{category_list}" method="get">
-    <span>검색이름</span>
-    <input type="text" th:field="${searchCategoryDto.name}"/>
+<form th:action="@{category_list}" method="get" class="pagination pagination-primary  justify-content-center">
+    <span style="text-align:center">검색 이름</span>
+    <input type="text" id="searchblank" style="width:50%" placeholder="검색할 이름 입력" th:field="${searchCategoryDto.name}"/>
     <input type="hidden" th:field="${searchCategoryDto.page}" />
-    <input type="submit" value="검색"/>
+    <input type="submit" value="검색" class="btn btn-primary rounded-pill"/>
 </form>
-<div>
+<div id="head1">
     Category List
 </div>
 <ul id="categoryList">
@@ -85,9 +116,12 @@
         </a>
     </li>
 </ul>
-<div>total : [[${searchCategoryDto.total}]]</div>
-<div><a href="category_add"><button>추가</button></a></div>
-<div id="pageDiv">
+<div class="col-sm-12 d-flex justify-content-end" id="divAdd">
+    <a href="category_add"><button class="btn btn-primary rounded-pill">추가</button></a>
+</div>
+<div id="bottomline">
+    <div id="total">total : [[${searchCategoryDto.total}]]</div>
+    <div id="pageDiv" class="pagination pagination-primary  justify-content-center"></div>
 </div>
 </body>
 </html>
