@@ -10,6 +10,22 @@
         #divForm{
             margin:200px 250px 0 250px;
         }
+        #divButton{
+            margin:0 300px;
+        }
+        #divButton button{
+            margin:1px;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            background-color:#435ebe;
+            color:white;
+            font-size: 20px;
+        }
+        h1{
+            text-align: center;
+            margin-top:30px;
+        }
     </style>
     <script language="JavaScript" src="/js/jquery-3.7.1.min.js"></script>
     <script th:inline="javascript">
@@ -19,7 +35,7 @@
 
         function categoryUpdate() {
             let name = $("#name").val();
-            if (confirm(name + " 수정 하시겠습니까 ?")) {
+            if (confirm(name + " 로 수정 하시겠습니까 ?")) {
                 document.form.method = "post";
                 document.form.action = "category_update";
                 document.form.submit();
@@ -28,7 +44,7 @@
         function categoryDelete() {
             let id = $("#id").val();
             let name = $("#name").val();
-            if (confirm(name + " 삭제 하시겠습니까 ?")) {
+            if (confirm(name + " 를(을) 삭제 하시겠습니까 ?")) {
                 $("#form").attr("method","get");
                 $("#form").attr("action","category_delete?id=" + id).submit();
             }
@@ -36,15 +52,18 @@
     </script>
 </head>
 <body>
+<h1>분류 관리 화면</h1>
 <div id="divForm">
     <form id="form" name="form" class="pagination pagination-primary  justify-content-center">
         <label for="id"></label><input type="hidden" id="id" name="id" th:value="${categoryDto.id}"/>
-        <label for="name" style="font-size: 25px">이름</label>
-        <input type="text" id="name" name="name" style="width:30px" th:value="${categoryDto.name}"/>
+        <label for="name" style="font-size: 60px">이름</label>
+        <input type="text" id="name" name="name" style="width:350px" th:value="${categoryDto.name}"/>
     </form>
+    <div id="divButton">
         <button onclick="goBack();">뒤로</button>
         <button onclick="categoryDelete();">삭제</button>
         <button onclick="categoryUpdate();">수정</button>
+    </div>
 </div>
 </body>
 </html>

@@ -20,18 +20,19 @@
         }
         #divAdd{
             position: relative;
-            top:120px;
+            top:60px;
             right: 600px;
-        }
-        #bottomline{
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
         }
         #total{
             font-size:30px;
             font-weight: bold;
+        }
+        hr{
+            width: 100%;
+            border: 0;
+            height: 7px;
+            background: dodgerblue;
+            margin:10px 0;
         }
     </style>
     <link rel="stylesheet" href="/mazer/assets/compiled/css/app.css">
@@ -49,21 +50,21 @@
             let startPage = getStartPage(page);
             let endPage = getEndPage(startPage);
             let searchName = [[${searchCategoryDto.name}]];
-            let sClass = "btn btn-success rounded-pill";
             let prev = (page-1) < 1 ? 1 : page-1;
             let next = (page+1) >= totPage ? totPage : page+1;
 
-            $("#pageDiv").append(" <a class='" + sClass + "' href='category_list?page=" + prev +
+            $("#pageDiv").append(" <a class='btn btn-primary rounded-pill' href='category_list?page=" + prev +
                 "&name=" + searchName + "'>Prev</a> ");
             for (let i = startPage; i <= endPage; i++) {
+                let sClass = "btn btn-outline-light";
                 if (page == i) {
-                    sClass = "btn btn-primary rounded-pill";
+                    sClass = "btn btn-light";
                 }
                 $("#pageDiv").append(" <a class='" + sClass + "' href='category_list?page=" + i +
                     "&name=" + searchName + "'>" + i + "</a> ");
                 sClass = "btn btn-success rounded-pill";
             }
-            $("#pageDiv").append(" <a class='" + sClass + "' href='category_list?page=" + next +
+            $("#pageDiv").append(" <a class='btn btn-primary rounded-pill' href='category_list?page=" + next +
                 "&name=" + searchName + "'>Next</a> ");
         });
 
@@ -99,6 +100,7 @@
     <input type="hidden" th:field="${searchCategoryDto.page}" />
     <input type="submit" value="검색" class="btn btn-primary rounded-pill"/>
 </form>
+<hr>
 <div id="head1">
     Category List
 </div>
@@ -119,7 +121,7 @@
 <div class="col-sm-12 d-flex justify-content-end" id="divAdd">
     <a href="category_add"><button class="btn btn-primary rounded-pill">추가</button></a>
 </div>
-<div id="bottomline">
+<div>
     <div id="total">total : [[${searchCategoryDto.total}]]</div>
     <div id="pageDiv" class="pagination pagination-primary  justify-content-center"></div>
 </div>

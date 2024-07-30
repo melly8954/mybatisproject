@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="/mazer/assets/compiled/css/app.css">
     <link rel="stylesheet" href="/mazer/assets/compiled/css/app-dark.css">
     <link rel="stylesheet" href="/mazer/assets/compiled/css/iconly.css">
+    <style>
+        h1{
+            margin: 50px 0;
+            text-align: center;
+        }
+        #divButton{
+            margin:2px;
+        }
+    </style>
     <script language="JavaScript" src="/js/jquery-3.7.1.min.js"></script>
     <script>
         const goBack = () => {
@@ -19,11 +28,15 @@
     </script>
 </head>
 <body>
+<h1>분류 정보 추가 화면</h1>
 <form id="form" name="form" class="pagination pagination-primary  justify-content-center" method="post" action="category_insert" onsubmit="return categoryInsert();">
-    <label for="name">이름</label><input type="text" id="name" name="name" />
-    <br />
-    <a onclick="goBack();"><span>뒤로</span></a>
-    <input type="submit" value="추가"/>
+    <label for="name" style="font-size: 20px">이름</label>
+    <input type="text" style="width: 300px" id="name" name="name" />
+
+    <div id="divButton">
+        <a onclick="goBack();"><button class="btn btn-primary">뒤로</button></a>
+        <input type="submit" class="btn btn-primary" value="추가"/>
+    </div>
 </form>
 </body>
 </html>
